@@ -1,4 +1,5 @@
 #include<iostream>
+#include<queue>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class BST{
     bool deleteNode(Node *&n);
     void printTree();
     void inOrderTraversal(Node* n);
+    void levelTraversal(Node* n);
     bool searchNode(int val);
     bool searchNodeHelper(Node*n, int val);
 };
@@ -101,7 +103,8 @@ bool BST::deleteNode(Node *&n){
 
 void BST::printTree(void){
     cout << "print" << endl;
-    inOrderTraversal(root);
+    // inOrderTraversal(root);
+    levelTraversal(root);
     cout << endl;
 }
 
@@ -110,6 +113,22 @@ void BST::inOrderTraversal(Node *n){
     inOrderTraversal(n->left);
     cout << n->data << " ";
     inOrderTraversal(n->right);
+}
+
+void BST::levelTraversal(Node* n){
+    queue<Node*> q;
+    q.emplace(n);
+    while(q.size() != 0){
+        int ssize = q.size();
+        for(int i=0;i<ssize;i++){
+            Node* node=q.front();
+            cout << node->data << " ";
+            node->left && q.emplace(node->left);
+            node->right && q.emplace(node->right);
+            q.pop();
+        }
+        cout << endl;
+    }
 }
 
 bool BST::searchNode(int val){
